@@ -5,4 +5,4 @@ We aim to increase model performance in the lack of data and compute scenario. U
 Build as part of the AI hackathon hosted by SARAS-AI (https://www.linkedin.com/company/sarasai/)
 
 *References*
-*- Lung Segmentation - [IlliaOvcharenko's repo](https://github.com/IlliaOvcharenko/lung-segmentation/tree/master?tab=readme-ov-file)
+*- Lung Segmentation - [IlliaOvcharenko's repo](https://github.com/IlliaOvcharenko/lung-segmentation/tree/master?tab=readme-ov-file)*
