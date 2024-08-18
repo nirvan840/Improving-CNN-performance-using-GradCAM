@@ -1,4 +1,4 @@
-# Improving CNN performance using GradCAM [(Collab Link)](https://colab.research.google.com/drive/1ffbipSZC2AevoZYl6MS8TJqXMXNHXRvP?usp=sharing)
+# Improving CNN performance using GradCAM [(Collab)](https://colab.research.google.com/drive/1ffbipSZC2AevoZYl6MS8TJqXMXNHXRvP?usp=sharing)
 
 
 ### _Motivtion_
