@@ -82,7 +82,7 @@ _mismatch in model parameters while loading models can be a result of modified a
    <img src="https://github.com/user-attachments/assets/d80871ad-91a9-46a5-befe-5d34128d6119" alt="Grid of GradCAMs" width="800" height="400"><br>
 
 * Finally, ~17M parameters were re-trained (~38% of ResNet-101) and optimized to achieve the current "best" model: `ResNet-101_GradCAM_Cropped_v4.pth`
-* Test Loss: | Test acc: | Sensitivity: | Specificity: ### COMPLETE ###
+* Test Loss: 0.264 | Test Acc: 91.56% | Sensitivity: 94.62% | Specificity: 85.90%
 * **Progress:** Obtained **noticeable improvement** in Pneumonia localisation and evaluation metrics. The model is now ready to create an enhanced data set.
 
   <img src="https://github.com/user-attachments/assets/5eaf8e0e-4665-4672-b4b3-be9d57656653" width="500" height="500"><br> 
@@ -101,10 +101,10 @@ _mismatch in model parameters while loading models can be a result of modified a
 
 ### Results using Enhanced Data Set
 * Classifier layer of `ResNet-101_GradCAM_Cropped_v4.pth`, 220k params, retrained.
-* Test Loss: 0.264 | Test Acc: 91.56% | Sensitivity: 94.62% | Specificity: 85.90%
+* Test Loss: | Test acc: | Sensitivity: | Specificity: ### COMPLETE ###
 
-  Improved GradCAMs<br>
-  <img src="" width="500" height="500"><br> ### COMPLETE ###
+  _Improved GradCAMs post fine-tuning using enhanced data<br>_
+  <img src="https://github.com/user-attachments/assets/0716ad15-ca50-4780-a980-98253e4692ab" width="500" height="500"><br> ### COMPLETE ###
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 &nbsp;
