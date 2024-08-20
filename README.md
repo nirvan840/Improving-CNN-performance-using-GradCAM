@@ -19,104 +19,141 @@ annotated data and access to extensive GPU Training architectures.
 
 ## _INSTRUCTIONS_
 
-### General
-* **Code**: **Pytorch** | **Data-set**: [paultimothymooney](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia).
-* After opening the notebook in Collab, please go to `File > Save as copy in Google Drive` to experiment with the code after reading the **Data Handing** section below.
+<details>
+  <summary> <b><i>Details</i></b> </summary>
   
-### Data Handling 
-* **.zip file** containing the **Pneumonia Dataset** must be uploaded to the `My Drive` folder of the **Google Drive** mounted to the collab notebook.
-* .zip file is** automatically extracted** to `drive\My Drive\ML Data Sets` while **removing any corrupted images**.
-* To use **external data-sets**, place them in `drive\My Drive\ML Data Sets` and change variable names.
-
-### CNN Models 
-* Baseline model architecture: [TinyVGG](https://poloclub.github.io/cnn-explainer/) 
-* Links to **.pth weights** of the trained models can be found in the `models` folder.
-* **popular pre-trained architectures** (VGG-16, VGG-19, ResNet-50, ResNet-101, ResNet-152) can be used and corresponding models loaded.
-* Model, optimizer & scheduler **state_dicts** can be saved to Google Drive (`drive\MyDrive\ML Models\<xyz.pth>`). These can be loaded in future for seamless resumption of progress.<br>
-
-_mismatch in model parameters while loading models can be a result of modified architecture in the code_
+  ### General
+  * **Code**: **Pytorch** | **Data-set**: [paultimothymooney](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia).
+  * After opening the notebook in Collab, please go to `File > Save as copy in Google Drive` to experiment with the code after reading the **Data Handing** section below.
+    
+  ### Data Handling 
+  * **.zip file** containing the **Pneumonia Dataset** must be uploaded to the `My Drive` folder of the **Google Drive** mounted to the collab notebook.
+  * .zip file is** automatically extracted** to `drive\My Drive\ML Data Sets` while **removing any corrupted images**.
+  * To use **external data-sets**, place them in `drive\My Drive\ML Data Sets` and change variable names.
+  
+  ### CNN Models 
+  * Baseline model architecture: [TinyVGG](https://poloclub.github.io/cnn-explainer/) 
+  * Links to **.pth weights** of the trained models can be found in the `models` folder.
+  * **popular pre-trained architectures** (VGG-16, VGG-19, ResNet-50, ResNet-101, ResNet-152) can be used and corresponding models loaded.
+  * Model, optimizer & scheduler **state_dicts** can be saved to Google Drive (`drive\MyDrive\ML Models\<xyz.pth>`). These can be loaded in future for seamless resumption of progress.<br>
+  
+  _mismatch in model parameters while loading models can be a result of modified architecture in the code_
+  
+</details>
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 &nbsp;
 
 ## _Results for various architectures_
 
-### Initial testing for Pneumonia localisation
-* Implemented GradCAM functionality to check Pneumonia localisation of baseline and pre-trained models.
-* Concluded the optimal model architecture and optimized it. 
-
-### Different Architectures
-##### TinyVGG `CNN_GradCAM_v1.pth`
-* Test Loss: 0.305 | Test Acc: 88.28% | Sensitivity: 91.79% | Specificity: 81.62%
-* **Problem:** Focus on unwanted features, extremely poor localisation of Pneumonia. Heavy overfitting.
+<details>
+  <summary> <b><i>Details</i></b> </summary>
   
-  <img src="https://github.com/user-attachments/assets/296b7743-5c1d-4899-b955-6cf60a0b0f39" alt="Grid of GradCAMs" width="500" height="500"><br>
-  <small> `Pneumonia Class | Good` here "Good" means prediction score >= 85% <br> `blank boxes` indicate wrong predictions <small>
+  ### Initial testing for Pneumonia localisation
+  * Implemented GradCAM functionality to check Pneumonia localisation of baseline and pre-trained models.
+  * Concluded the optimal model architecture and optimized it. 
+  
+  ### Different Architectures
+  #### TinyVGG `CNN_GradCAM_v1.pth`
+  * Test Loss: 0.305 | Test Acc: 88.28% | Sensitivity: 91.79% | Specificity: 81.62%
+  * **Problem:** Focus on unwanted features, extremely poor localisation of Pneumonia. Heavy overfitting.
+    
+    <img src="https://github.com/user-attachments/assets/296b7743-5c1d-4899-b955-6cf60a0b0f39" alt="Grid of GradCAMs" width="400" height="400"><br>
+    <small> `Pneumonia Class | Good` here "Good" means prediction score >= 85% <br> `blank boxes` indicate wrong predictions <small>
+  
+  
+  #### VGG-16 `VGG-16_GradCAM_v2.pth`
+  * Test Loss: 0.362 | Test Acc: 83.91% | Sensitivity: 88.72% | Specificity: 75.07%
+  * **Progress:** Improved but unsatisfactory localisation.
+  
+    <img src="https://github.com/user-attachments/assets/bae4d462-d7b7-4928-90c8-8ebc4b8eb06b" alt="Grid of GradCAMs" width="400" height="400"><br>
+  
+  
+  #### ResNet-101 `ResNet-101_GradCAM_v1.pth`
+  * Test loss: 0.369 | Test acc: 83.59% | Sensitivity: 95.38% | Specificity: 62.82%
+  * **Progress:** Improved localisation after adding FC layer with 10k params.
+  
+    <img src="https://github.com/user-attachments/assets/4bd31cb7-2e10-4460-88f7-df34211617ba" alt="Grid of GradCAMs" width="400" height="400"><br>
+  
+  
+  #### ResNet-152 `ResNet-152_GradCAM_v1.pth`
+  * Test Loss: 0.379 | Test acc: 84.69% | Sensitivity: 93.33% | Specificity: 70.09%
+  * **Progress:** Similar/worse localisation compared to ResNet-101 with similar evaluation metrics.
+  
+    <img src="https://github.com/user-attachments/assets/9f695585-faa6-4294-ae72-aadb2cb1e63b" alt="Grid of GradCAMs" width="400" height="400"><be>
+  
+  
+  ### Best Overall Localisation and Performance: ResNet-101 `ResNet-101_GradCAM_v1.pth`
+  * There is an unwanted focus on **void regions** surrounding the skeleton.
+  * To fix this, a small center-crop was added to training images before feeding them to the model, thus preventing the model from "learning" these void regions.
+  
+     <img src="https://github.com/user-attachments/assets/d80871ad-91a9-46a5-befe-5d34128d6119" alt="Grid of GradCAMs" width="650" height="320"><br>
+  
+  ### Optimizing ResNet-101_GradCAM_v1.pth
+  * Finally, **~17M parameters** were re-trained** from scratch **(~38% of ResNet-101) using above** cropped train data** to achieve the current "best" model: `ResNet-101_GradCAM_Cropped_v4.pth`
+  * `Test Loss: 0.264 | Test Acc: 91.56% | Sensitivity: 94.62% | Specificity: 85.90%`
+  * **Progress:** Obtained **noticeable improvement** in Pneumonia localisation and evaluation metrics.<br> The model is now ready to create an enhanced data set.
+  
+    <img src="https://github.com/user-attachments/assets/5eaf8e0e-4665-4672-b4b3-be9d57656653" width="500" height="500"><br>
+    <small> _GradCAMs showing improved localisation_ <small>
 
-
-##### VGG-16 `VGG-16_GradCAM_v2.pth`
-* Test Loss: 0.362 | Test Acc: 83.91% | Sensitivity: 88.72% | Specificity: 75.07%
-* **Progress:** Improved but unsatisfactory localisation.
-
-  <img src="https://github.com/user-attachments/assets/bae4d462-d7b7-4928-90c8-8ebc4b8eb06b" alt="Grid of GradCAMs" width="500" height="500"><br>
-
-
-##### ResNet-101 `ResNet-101_GradCAM_v1.pth`
-* Test loss: 0.369 | Test acc: 83.59% | Sensitivity: 95.38% | Specificity: 62.82%
-* **Progress:** Improved localisation after adding FC layer with 10k params.
-
-  <img src="https://github.com/user-attachments/assets/4bd31cb7-2e10-4460-88f7-df34211617ba" alt="Grid of GradCAMs" width="500" height="500"><br>
-
-
-##### ResNet-152 `ResNet-152_GradCAM_v1.pth`
-* Test Loss: 0.379 | Test acc: 84.69% | Sensitivity: 93.33% | Specificity: 70.09%
-* **Progress:** Similar/worse localisation compared to ResNet-101 with similar evaluation metrics.
-
-  <img src="https://github.com/user-attachments/assets/9f695585-faa6-4294-ae72-aadb2cb1e63b" alt="Grid of GradCAMs" width="500" height="500"><be>
-
-
-### Best Overall Localisation and Performance: ResNet-101 `ResNet-101_GradCAM_v1.pth`
-* ResNet-101 is re-trained and optimized by increasing the additional FC layer to have 220k params and by slowly un-freezing ResNet_layer4.
-* However, there is an unwanted focus on **void regions** surrounding the skeleton. To fix this, a small center-crop was added to training images before feeding them to the model, thus preventing the model from "learning" these void regions.
-
-   <img src="https://github.com/user-attachments/assets/d80871ad-91a9-46a5-befe-5d34128d6119" alt="Grid of GradCAMs" width="800" height="400"><br>
-
-* Finally, ~17M parameters were re-trained (~38% of ResNet-101) and optimized to achieve the current "best" model: `ResNet-101_GradCAM_Cropped_v4.pth`
-* Test Loss: 0.264 | Test Acc: 91.56% | Sensitivity: 94.62% | Specificity: 85.90%
-* **Progress:** Obtained **noticeable improvement** in Pneumonia localisation and evaluation metrics.<br>The model is now ready to create an enhanced data set.
-
-  <img src="https://github.com/user-attachments/assets/5eaf8e0e-4665-4672-b4b3-be9d57656653" width="500" height="500"><br> 
+</details>
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 &nbsp;
 
 ## _ENHANCED DATASET RESULTS_
 
-### Enhanced Data Set
-* Train Data enhanced by overlaying accurate GarCAMs.
-  * "**enhanced**" - important features emphasized while the rest of the image is suppressed.
-  * "**accurate**" - the assumption is that GradCAMs localized to the lung are fairly accurate.
+<details>
+  <summary> <b><i>Details</i></b> </summary>
   
-  <img src="" width="500" height="500"><br> ### COMPLETE ###
+  ### Enhanced Data Set
+  * Train Data enhanced by overlaying accurate GarCAMs.
+    * "**enhanced**" - important features emphasized while the rest of the image is suppressed.
+    * "**accurate**" - the assumption is that GradCAMs localized to the lung are fairly accurate.
+    
+    <img src="" width="500" height="500"><br>
+    _Image showing 50 images from the enhanced train data_
+  
+  ### Results using Enhanced Data Set `ResNet-101_GradCAM_Cropped_v4_enh_v1.pth`
+  * Re-trained all **ResNet-101_GradCAM_Cropped_v4.pth** params using above **enhanced data set. **
+  * One cycle resulted in a **~15% improvement in the localization** of pneumonia, with only a **~3% decrease in test accuracy** with respect to **ResNet-101_GradCAM_Cropped_v4.pth.**
+  * `Test Loss: 0.397 | Test acc: 88.59% | Sensitivity: 86.41% | Specificity: 91.88%`
+  
+    <img src="https://github.com/user-attachments/assets/bc2bef1c-8bb1-4c21-830e-086f981974e7" width="500" height="500"><br>
+     _Improved GradCAMs post fine-tuning using enhanced data_
 
-### Results using Enhanced Data Set
-* Re-trained all `ResNet-101_GradCAM_Cropped_v4.pth` params.
-* Test Loss: 0.397 | Test acc: 88.59% | Sensitivity: 86.41% | Specificity: 91.88%
-
-  _Improved GradCAMs post fine-tuning using enhanced data<br>_
-  <img src="https://github.com/user-attachments/assets/bc2bef1c-8bb1-4c21-830e-086f981974e7" width="500" height="500"><br>
-
+</details>
+  
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 &nbsp;
 
 ## _CONCLUSION_
 
-*
+<details>
+  <summary> <b><i>Details</i></b> </summary>
+  
+  * We sucessfuly are able develop a **work-around the limited data constraint** to iteratively obtain better localisation & identification of pneumonia.
+    During this process as expected, test accuracy takes a small hit as the model diverges away from unwated "easy" to detect features.
+  
+  ### Results on annotated images
+  <small> _The model was not trained on annotated data and thus presence of arrows, pointing to Pneumonia in the X-rays, makes no difference in the model choice_ <small>
+  
+  * **Covid-19 Pneumonia X-ray**<br>
+    ![covid1_results](https://github.com/user-attachments/assets/66eaa0d6-0a0c-4f6a-b26b-073bdcbc6a86)
+  
+  * **Pneumonia X-ray**<br>
+    ![pneum5_results](https://github.com/user-attachments/assets/3e8939b2-fb09-46f7-bbab-2df2d8054985)
+  
+  * **Pneumonia X-ray**<br>
+    ![pneum4_results](https://github.com/user-attachments/assets/81da8dee-e23a-4f3a-8a92-453165988912)
+
+</details>
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 &nbsp;
 
 ## _REFERENCES_
-* GradCAM - [JimEverest](https://github.com/JimEverest/CAM)
-* Lung Segmentation - [IlliaOvcharenko's repo](https://github.com/IlliaOvcharenko/lung-segmentation/tree/master?tab=readme-ov-file)
+* <i>  GradCAM - [JimEverest](https://github.com/JimEverest/CAM)  </i>
+* <i> Lung Segmentation - [IlliaOvcharenko's repo](https://github.com/IlliaOvcharenko/lung-segmentation/tree/master?tab=readme-ov-file) </i>
 
