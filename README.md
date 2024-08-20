@@ -14,7 +14,6 @@ annotated data and access to extensive GPU Training architectures.
 ![image](https://github.com/user-attachments/assets/e14a62a0-4af0-40e6-94ff-8a52712a726d)
 <small> _A model-independent, self-sufficient, cyclic process is developed to achieve better Pneumonia localisation and improve performance metrics on the given dataset._ <small>
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 &nbsp;
 
 ## _INSTRUCTIONS_
