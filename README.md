@@ -43,7 +43,7 @@ annotated data and access to extensive GPU Training architectures.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 &nbsp;
 
-## _Results for various architectures_
+## _RESULTS FOR VARIOUS ARCHITECTURES_
 
 <details>
   <summary> <b><i>Details</i></b> </summary>
