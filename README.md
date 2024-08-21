@@ -157,7 +157,7 @@ annotated data and access to extensive GPU Training architectures.
   * The model also relies less on unwanted features and void regions while predicting.
   * The results **are limited to only one cycle** shown in the schematic above; further process iterations are bound to yield gradual but better results.
 
-    <img src="https://github.com/user-attachments/assets/f546ab98-4333-4946-ba06-814d7d063906" width="3500" height="500"><br>
+    <img src="https://github.com/user-attachments/assets/f546ab98-4333-4946-ba06-814d7d063906" width="3500" height="400"><br>
      _Final Comparison on the same 100 test images_
 
 </details>
