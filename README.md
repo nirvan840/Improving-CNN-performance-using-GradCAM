@@ -112,11 +112,11 @@ annotated data and access to extensive GPU Training architectures.
   
   ### Enhanced Data Set
   * Train Data enhanced by overlaying accurate GarCAMs.
-    * "**enhanced**" - important features emphasized while the rest of the image is suppressed.
+    * "**enhanced**" - important features emphasized (in "white") while the rest of the image is suppressed.
     * "**accurate**" - the assumption is that GradCAMs localized to the lung are fairly accurate.
     
-    <img src="" width="500" height="500"><br>
-    _Image showing 50 images from the enhanced train data_
+      <img src="https://github.com/user-attachments/assets/c672799b-1b9c-4c76-8fca-2d5480763dd1" width="500" height="500"><br>
+      _Image showing 49 images from the enhanced train data<br>post data transformations_
   
   ### Results using Enhanced Data Set `ResNet-101_GradCAM_Cropped_v4_enh_v1.pth`
 * Re-trained previously "un-frozen" ~17M **ResNet-101_GradCAM_Cropped_v4.pth** params using above **enhanced data set**.
