@@ -2,8 +2,8 @@
 
 
 ### _Motivtion_
-**Doubt:** Unexpected high performance of shallow CNN (4 Conv2d layers only) on Pneumonia Dataset. <br>
-**Hypothesis:** Possible model overfitting on unwanted features rather than Pneumonia. 
+_**Doubt:**_ Unexpected high performance of shallow CNN (4 Conv2d layers only) on Pneumonia Dataset. <br>
+_**Hypothesis:**_ Possible model overfitting on unwanted features rather than Pneumonia. 
 
 ### _Problem Statement_
 Improving Convolutional Neural Network classification and feature localisation for Pneumonia Chest X-rays in the scenario of lack of extensive
@@ -11,8 +11,12 @@ annotated data and access to extensive GPU Training architectures.
 
 ### _Approach_
 
-![image](https://github.com/user-attachments/assets/e14a62a0-4af0-40e6-94ff-8a52712a726d)
-<small> _A model-independent, self-sufficient, cyclic process is developed to achieve better Pneumonia localisation and improve performance metrics on the given dataset._ <small>
+* A model-independent, self-sufficient, **cyclic process** is developed to achieve better Pneumonia localisation and improve performance metrics on the given dataset.
+* The **recursive optimization cycle for CNN models**: GradCAM generation → Enhanced data-set construction by overlaying GradCAMs on input → U-Net Lung Segmentation → Model tuning on enhanced data-set.
+* The proposed cycle **tackles self-imposed challenges of limited data** and suboptimal localization by **iteratively augmenting and re-utilizing the original dataset**, thereby refining the model’s focus on pneumonia-specific features.
+  
+  ![image](https://github.com/user-attachments/assets/e14a62a0-4af0-40e6-94ff-8a52712a726d)
+  _Image showing one aforementioned cycle_
 
 &nbsp;
 
@@ -115,7 +119,7 @@ annotated data and access to extensive GPU Training architectures.
     _Image showing 50 images from the enhanced train data_
   
   ### Results using Enhanced Data Set `ResNet-101_GradCAM_Cropped_v4_enh_v1.pth`
-  * Re-trained all **ResNet-101_GradCAM_Cropped_v4.pth** params using above **enhanced data set. **
+* Re-trained previously "un-frozen" ~17M **ResNet-101_GradCAM_Cropped_v4.pth** params using above **enhanced data set**.
   * One cycle resulted in a **~15% improvement in the localization** of pneumonia, with only a **~3% decrease in test accuracy** with respect to **ResNet-101_GradCAM_Cropped_v4.pth.**
   * `Test Loss: 0.397 | Test acc: 88.59% | Sensitivity: 86.41% | Specificity: 91.88%`
   
@@ -131,21 +135,30 @@ annotated data and access to extensive GPU Training architectures.
 
 <details>
   <summary> <b><i>Details</i></b> </summary>
-  
-  * We sucessfuly are able develop a **work-around the limited data constraint** to iteratively obtain better localisation & identification of pneumonia.
-    During this process as expected, test accuracy takes a small hit as the model diverges away from unwated "easy" to detect features.
+
+  ### Summary
+  * We successfully can develop a **workaround for the limited data constraint** to iteratively obtain better localisation & identification of pneumonia.
+  * During this process, as expected, test accuracy takes a small hit as the model diverges away from unwanted "easy" to detect features.
   
   ### Results on annotated images
-  <small> _The model was not trained on annotated data and thus presence of arrows, pointing to Pneumonia in the X-rays, makes no difference in the model choice_ <small>
+  * <small> _Model was not trained on annotated data; the presence of arrows pointing to Pneumonia in the X-rays makes no difference in the model choice_ <small>
   
   * **Covid-19 Pneumonia X-ray**<br>
-    ![covid1_results](https://github.com/user-attachments/assets/66eaa0d6-0a0c-4f6a-b26b-073bdcbc6a86)
+    <img src="https://github.com/user-attachments/assets/66eaa0d6-0a0c-4f6a-b26b-073bdcbc6a86" width="300" height="150"><br>
   
   * **Pneumonia X-ray**<br>
-    ![pneum5_results](https://github.com/user-attachments/assets/3e8939b2-fb09-46f7-bbab-2df2d8054985)
+    <img src="https://github.com/user-attachments/assets/3e8939b2-fb09-46f7-bbab-2df2d8054985" width="300" height="150"><br>
   
   * **Pneumonia X-ray**<br>
-    ![pneum4_results](https://github.com/user-attachments/assets/81da8dee-e23a-4f3a-8a92-453165988912)
+    <img src="https://github.com/user-attachments/assets/81da8dee-e23a-4f3a-8a92-453165988912" width="300" height="150"><br>
+
+### Post and Pre-Enhanced Data Fine-Tuning Comparison
+  * Post-fine-tuning the model on enhanced data, we observe significantly better localisation of Pneumonia to the lungs.
+  * The model also relies less on unwanted features and void regions while predicting.
+  * The results **are limited to only one cycle** shown in the schematic above; further process iterations are bound to yield gradual but better results.
+
+    <img src="https://github.com/user-attachments/assets/f546ab98-4333-4946-ba06-814d7d063906" width="3500" height="500"><br>
+     _Final Comparison on the same 100 test images_
 
 </details>
 
